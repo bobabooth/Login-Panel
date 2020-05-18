@@ -71,7 +71,7 @@ int main(int, char**)
 
     // Our state
     bool show_demo_window = false;
-    bool show_another_window = false;
+    bool do_nothing = false;
     bool forget_password = false;
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -102,21 +102,34 @@ int main(int, char**)
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+        // Set to false if you want window to resize or collapse.
+        static bool no_resize = true;
+        static bool no_collapse = true;
+
+        ImGuiWindowFlags window_flags = 0;
+        if (no_resize)          window_flags |= ImGuiWindowFlags_NoResize;
+        if (no_collapse)        window_flags |= ImGuiWindowFlags_NoCollapse;
+
+        // Change SetNextWindowPos to change location of the new popup window.
+        // Change SetNextWindowSize to change size of window.
+        ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(400, 250), ImGuiCond_FirstUseEver);
+
+        // Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         {
+            ImGui::Begin("Login", (bool*)1, window_flags);          // Create a window called "Login" and append into it.
+            ImGui::Text("Welcome! Please sign in below:");          // Display some text (you can use a format strings too)
 
-            ImGui::Begin("Login");                          // Create a window called "Login" and append into it.
 
-            ImGui::Text("Welcome! Please sign in below:");               // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             ImGui::Text("Username");
             static char buf1[64] = ""; ImGui::InputText("###username", buf1, 64);
             ImGui::Text("Password");
             static char buf2[64] = ""; ImGui::InputText("###password", buf2, 64);
 
-            ImGui::Checkbox("Remember me on this computer", &show_another_window);
+            ImGui::Checkbox("Remember me on this computer", &do_nothing);
 
-            ImGui::Button("Login");                            // Buttons return true when clicked (most widgets return true when edited/activated)
+            ImGui::Button("Login");
             ImGui::Text(" ");
             if (ImGui::Button("Forget password"))
             {
@@ -127,15 +140,6 @@ int main(int, char**)
         }
 
         // 3. Show another simple window.
-        /*if (show_another_window)
-        {
-            ImGui::Begin("Remember credentials", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }*/
-
         if (forget_password)
         {
             ImGui::Begin("Forget password", &forget_password);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
