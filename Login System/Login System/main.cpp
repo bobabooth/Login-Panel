@@ -5,6 +5,7 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
+#include <Windows.h>
 
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
@@ -142,7 +143,7 @@ int main(int, char**)
         // 3. Show another simple window.
         if (forget_password)
         {
-            ImGui::Begin("Forget password", &forget_password);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            ImGui::Begin("Forget password", &forget_password, window_flags);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             ImGui::Text("Please enter the code that we've sent to your email:");
             static char buf3[64] = ""; ImGui::InputText("###code", buf3, 64);
             ImGui::Button("Enter");
