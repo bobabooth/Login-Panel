@@ -6,6 +6,7 @@
 #include <dinput.h>
 #include <tchar.h>
 #include <Windows.h>
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup") //disables console appearing
 
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
@@ -71,7 +72,6 @@ int main(int, char**)
     //IM_ASSERT(font != NULL);
 
     // Our state
-    bool show_demo_window = false;
     bool do_nothing = false;
     bool forget_password = false;
 
@@ -99,10 +99,6 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
-
         // Set to false if you want window to resize or collapse.
         static bool no_resize = true;
         static bool no_collapse = true;
@@ -121,8 +117,6 @@ int main(int, char**)
             ImGui::Begin("Login", (bool*)1, window_flags);          // Create a window called "Login" and append into it.
             ImGui::Text("Welcome! Please sign in below:");          // Display some text (you can use a format strings too)
 
-
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             ImGui::Text("Username");
             static char buf1[64] = ""; ImGui::InputText("###username", buf1, 64);
             ImGui::Text("Password");
