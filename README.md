@@ -1,5 +1,6 @@
 # Login Panel
 C++ desktop login panel integrated with the lastest Dear ImGui graphical library.
+![image](https://i.imgur.com/Zbc1bB5.png)
 #### Prerequisites
 Microsoft Visual Studio 2019 (preferably latest version), platform toolset v142 and Windows SDK 10.0 are required in order to compile.
 #### Compiling from source
